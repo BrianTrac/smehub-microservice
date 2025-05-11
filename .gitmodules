@@ -1,0 +1,3 @@
+[submodule "core-service"]
+	path = core-service
+	url = https://github.com/BrianTrac/smehub.git
