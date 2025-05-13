@@ -6,5 +6,10 @@ CREATE TABLE product (
                          type VARCHAR(100),
                          name VARCHAR(255),
                          total_price DOUBLE,
-                         data JSON
+                         data JSON,
+                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                         created_by VARCHAR(255) default 'system',
+                         updated_by VARCHAR(255) default 'system',
+                         deleted BOOLEAN DEFAULT FALSE
 );

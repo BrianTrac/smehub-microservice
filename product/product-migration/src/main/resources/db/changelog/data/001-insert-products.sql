@@ -8,5 +8,3 @@ INSERT INTO product (id, type, name, total_price, data) VALUE
     JSON_OBJECT('number_of_months_used', 12, 'number_of_invoices', 50, 'invoice_fee', 140.35)),
     ('a3e7291d-6ef9-4989-8a66-4ec0c11939a8', 'Easybooks', 'Easybooks 2 year package 5000 documents circular 133', 89.99,
     JSON_OBJECT('number_of_months_used', 24, 'number_of_documents', 5000, 'circular', '300w', 'has_device', true));
-
-SELECT * FROM DATABASECHANGELOG ORDER BY DATEEXECUTED DESC;
