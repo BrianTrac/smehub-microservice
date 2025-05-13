@@ -2,17 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.example</groupId>
+        <artifactId>smehub</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>org.example</groupId>
+
     <artifactId>order</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
+	<packaging>pom</packaging>
     <name>order</name>
     <description>order</description>
+
     <url/>
     <licenses>
         <license/>
@@ -20,6 +23,13 @@
     <developers>
         <developer/>
     </developers>
+    <modules>
+        <module>order-application</module>
+        <module>order-business</module>
+        <module>order-infrastructure</module>
+        <module>order-migration</module>
+        <module>order-worker</module>
+    </modules>
     <scm>
         <connection/>
         <developerConnection/>
@@ -28,6 +38,7 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <revision>1.0.0-SNAPSHOT</revision>
     </properties>
     <dependencies>
         <dependency>

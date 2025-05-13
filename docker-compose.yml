@@ -1,0 +1,162 @@
+services:
+  mysql-common:
+    image: mysql:8.0.28
+    container_name: mysql-common
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak_db
+      MYSQL_USER: keycloak_user
+      MYSQL_PASSWORD: keycloak_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak_smehub
+    command: >
+      start-dev
+      --http-host=0.0.0.0
+      --hostname=localhost
+      --hostname-port=8080
+      --hostname-strict=false
+      --proxy=edge
+      --db=mysql
+      --db-url=jdbc:mysql://mysql-common:3306/keycloak_db?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+      --transaction-xa-enabled=false
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB_USERNAME: keycloak_user
+      KC_DB_PASSWORD: keycloak_pass
+      KC_HTTP_ENABLED: "true"
+    depends_on:
+      mysql-common:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes  # This allows unauthenticated connections
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper-data:/bitnami/zookeeper
+    networks:
+      - backend
+
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    environment:
+      # KRaft mode configuration
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+
+      # Listener configurations
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+
+      # General settings
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ENABLE_KRAFT=yes
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    volumes:
+      - kafka-data:/bitnami/kafka
+    networks:
+      - backend
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8082:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - backend
+
+
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+#    container_name: elasticsearch
+#    environment:
+#      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#    ports:
+#      - "9200:9200"
+#    volumes:
+#      - es-data:/usr/share/elasticsearch/data
+#    networks:
+#      - backend
+#
+#  logstash:
+#    image: docker.elastic.co/logstash/logstash:8.11.1
+#    container_name: logstash
+#    depends_on:
+#      - elasticsearch
+#    ports:
+#      - "5044:5044"
+#    networks:
+#      - backend
+#
+#  kibana:
+#    image: docker.elastic.co/kibana/kibana:8.11.1
+#    container_name: kibana
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - backend
+
+#  identity-service:
+#    build: ./identity
+#    container_name: identity
+#    depends_on:
+#      - mysql-common
+#      - keycloak
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-common:3307/identity_db
+#      SPRING_DATASOURCE_USERNAME: identity_user
+#      SPRING_DATASOURCE_PASSWORD: identity_pass
+#      KEYCLOAK_URL: http://keycloak:8081
+#    ports:
+#      - "8082:8082"
+#    networks:
+#      - backend
+
+volumes:
+  mysql-data:
+  es-data:
+  kafka-data:
+  zookeeper-data:
+
+networks:
+  backend:
+    driver: bridge

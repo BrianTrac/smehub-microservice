@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\identity",
+    "\\identity\\identity-application",
+    "\\order",
+    "\\product",
+    "\\product\\product-application",
+    "\\product\\product-application\\src",
+    "\\product\\product-application\\src\\main",
+    "\\product\\product-application\\src\\main\\java",
+    "\\product\\product-application\\src\\main\\java\\org",
+    "\\product\\product-application\\src\\main\\java\\org\\example"
+  ],
+  "SelectedNode": "\\product\\product-application\\src\\main\\java\\org\\example\\Main.java",
+  "PreviewInSolutionExplorer": false
+}
