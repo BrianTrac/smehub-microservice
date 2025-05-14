@@ -18,7 +18,9 @@ public class ProductJsonSchemaValidator {
         String schemaPath = "/schemas/" + productType.toLowerCase() + ".schema.json";
         try (InputStream schemaStream = getClass().getResourceAsStream(schemaPath)) {
 
-            assert schemaStream != null;
+            if (schemaStream == null) {
+                throw new IllegalArgumentException("Schema file not found for product type: " + productType);
+            }
             JSONObject rawSchema = new JSONObject((new JSONTokener(schemaStream)));
             Schema schema = SchemaLoader.load(rawSchema);
             String jsonData = new ObjectMapper().writeValueAsString(data);
