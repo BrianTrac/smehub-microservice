@@ -42,6 +42,10 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <mysql-connector-j.version>9.2.0</mysql-connector-j.version>
+        <org.everit.json.schema.version>1.5.1</org.everit.json.schema.version>
+        <org.json.version>20210307</org.json.version>
+        <org.apache.logging.log4j.version>2.24.3</org.apache.logging.log4j.version>
+        <ch.qos.logback.version>1.5.18</ch.qos.logback.version>
     </properties>
 
     <dependencyManagement>
@@ -101,11 +105,11 @@
 <!--                <version>${revision}</version>-->
 <!--            </dependency>-->
 
-<!--            <dependency>-->
-<!--                <groupId>org.example</groupId>-->
-<!--                <artifactId>product-infrastructure</artifactId>-->
-<!--                <version>${revision}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>product-infrastructure</artifactId>
+                <version>${revision}</version>
+            </dependency>
 
 <!--            <dependency>-->
 <!--                <groupId>org.example</groupId>-->
@@ -142,6 +146,39 @@
 <!--                <artifactId>identity-migration</artifactId>-->
 <!--                <version>${revision}</version>-->
 <!--            </dependency>-->
+
+           <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${org.apache.logging.log4j.version}</version>
+           </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${ch.qos.logback.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+           <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${ch.qos.logback.version}</version>
+            </dependency>
+
+            <!-- JSON Schema validation -->
+            <dependency>
+                <groupId>org.everit.json</groupId>
+                <artifactId>org.everit.json.schema</artifactId>
+                <version>${org.everit.json.schema.version}</version>
+            </dependency>
+
+            <!-- org.json -->
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${org.json.version}</version>
+            </dependency>
 
 
             <dependency>

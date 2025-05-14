@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EasyBooks Product Data",
+  "type": "object",
+  "properties": {
+    "number_of_months_used": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "number_of_documents": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "circular": {
+      "type": "string",
+      "enum": ["300w", "133w", "200w", "others"]
+    },
+    "has_device": {
+      "type": "boolean"
+    }
+  },
+  "required": ["number_of_months_used", "number_of_documents", "circular", "has_device"]
+}
