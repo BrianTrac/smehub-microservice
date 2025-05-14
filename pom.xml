@@ -89,11 +89,11 @@
 <!--                <version>${revision}</version>-->
 <!--            </dependency>-->
 
-<!--            <dependency>-->
-<!--                <groupId>org.example</groupId>-->
-<!--                <artifactId>product-business</artifactId>-->
-<!--                <version>${revision}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>product-business</artifactId>
+                <version>${revision}</version>
+            </dependency>
 
 <!--            <dependency>-->
 <!--                <groupId>org.example</groupId>-->
