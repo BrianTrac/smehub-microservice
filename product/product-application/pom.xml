@@ -16,6 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>org.example</groupId>
+            <artifactId>product-infrastructure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.example</groupId>
             <artifactId>product-business</artifactId>
         </dependency>
 
